@@ -1,0 +1,21 @@
+(defun c:atsection()
+	(setq zom 17)
+	(setq cen2 (getpoint "\n Center2:"))
+  (while (setq secl1 (entsel "\n line in section1:"))
+    (progn
+	(setq cen1 (GETVAR "VIEWCTR"))
+	(setq basepoint1 (getpoint "\n base point in section 1:"))
+	(setq datum1 (atof (cdr (assoc 1 (entget (car (entsel "\n datum code1:")))))))
+	(command "_.ZOOM" "C" (list (nth 0 cen2) (nth 1 cen2)) zom)
+	(setq basepoint2 (getpoint "\n base point in section 2:"))
+      	(setvar 'OSMODE 0)
+	(setq datum2 (atof (cdr (assoc 1 (entget (car (entsel "\n datum code2:")))))))
+	(command "_.MOVE" secl1 "" basepoint1 (list (nth 0 basepoint2) (+ (nth 1 basepoint2) (- datum1 datum2))))
+  	(setq cen2 (GETVAR "VIEWCTR"))
+    	(command "_.ZOOM" "C" (list (nth 0 cen1) (nth 1 cen1)) zom)
+      	
+      	(setvar 'OSMODE 1)
+      )
+    )
+
+)
