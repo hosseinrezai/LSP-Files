@@ -163,3 +163,45 @@
 	  )
     )
   )
+;;******************************************************************************************************************************************************
+(defun c:printregular()
+  (setq tsatr (- (getreal "\n tedad satr:") 1))  
+  (setq tston (- (getreal "\n tedad ston:") 1))
+  (setq fsatr (getdist "\n fasele satr:"))  
+  (setq fston (getdist "\n fasele ston:"))
+  (setq tl (getpoint "\n Bala Chap:"))  
+  (setq br (getpoint "\n Pain Rast:"))
+  (setq i 0)
+  (while (<= 0 tston)
+    	(if (< tsatr i)
+		(progn
+		  (setq tston (- tston 1))
+		  (setq i 0)
+		  )
+	  	(progn
+  (command "_.PLOT"
+				 "YES" 				;PLOT Detailed plot configuration? [Yes/No] <No>: nil
+				 "Layout1" 			;Enter a layout name or [?] <Model>:
+				 "EPSON Stylus Photo 1410"
+				 "A4 210 x 297 mm"		;Enter paper size or [?] <30×112>:
+				 "Millimeters"			;Enter paper units [Inches/Millimeters] <Millimeters>: M
+				 "Landscape"			;Enter drawing orientation [Portrait/Landscape] <Landscape>: L
+				 "NO"				;Plot upside down? [Yes/No] <No>: Y
+				 "Window"			;Enter plot area [Display/Extents/Limits/View/Window] <Display>: W
+				 (List (+ (nth 0 tl) (* fston tston)) (+ (nth 1 tl) (* i fsatr)))	;Enter lower left corner of window
+  				 (list (+ (nth 0 br) (* fston tston)) (+ (nth 1 br) (*  i fsatr)))
+				 "Fit"				;Enter plot scale (Plotted Millimeters=Drawing Units) or [Fit] <Fit>:
+				 "Center"			;Enter plot offset (x,y) or [Center] <0.00,0.00>:
+				 "Yes"				;Plot with plot styles? [Yes/No] <Yes>:
+				 "."				;Enter plot style table name or [?] (enter . for none) <>:
+				 "Yes"				;Plot with lineweights? [Yes/No] <Yes>:
+				 "As displayed"			;Enter shade plot setting [As displayed/legacy Wireframe/legacy Hidden/Visual styles/Rendered] <As displayed>:
+				 "No"				;Write the plot to a file [Yes/No] <N>:
+				 "No"				;Save changes to page setup [Yes/No]? <N>
+				 "Yes"				;Proceed with plot [Yes/No] <Y>:
+				 )
+		  	(setq i (+ i 1))
+		  )
+	  )
+    )
+  )
